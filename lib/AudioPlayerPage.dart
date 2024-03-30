@@ -9,6 +9,7 @@ class AudioPlayerPage extends StatefulWidget {
 class _AudioPlayerPageState extends State<AudioPlayerPage> {
   late AudioCache _audioCache;
   late AudioPlayer _audioPlayer;
+  double _playbackRate = 1.0;
 
   @override
   void initState() {
@@ -31,6 +32,45 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
     }
   }
 
+  void _stopAudio() async {
+    await _audioPlayer.stop();
+  }
+
+  void _fastForward() {
+    setState(() {
+      _playbackRate += 0.5;
+      _playbackRate = _playbackRate.clamp(0.5, 2.0);
+      _audioPlayer.setPlaybackRate(_playbackRate);
+    });
+  }
+
+  void _slowDown() {
+    setState(() {
+      _playbackRate -= 0.5;
+      _playbackRate = _playbackRate.clamp(0.5, 2.0);
+      _audioPlayer.setPlaybackRate(_playbackRate);
+    });
+  }
+
+  void _skipForward() async {
+    Duration? currentPosition = await _audioPlayer.getCurrentPosition();
+    if (currentPosition != null) {
+      Duration newPosition = currentPosition + Duration(seconds: 10);
+      await _audioPlayer.seek(newPosition);
+    }
+  }
+
+  void _skipBackward() async {
+    Duration? currentPosition = await _audioPlayer.getCurrentPosition();
+    if (currentPosition != null) {
+      Duration newPosition = currentPosition - Duration(seconds: 10);
+      if (newPosition.inMilliseconds < 0) {
+        newPosition = Duration.zero;
+      }
+      await _audioPlayer.seek(newPosition);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,9 +78,49 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
         title: Text('Audio Player Page'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: _playAudio,
-          child: Text('Play Audio'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: _playAudio,
+              child: Text('Play Audio'),
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _stopAudio,
+              child: Text('Stop Audio'),
+            ),
+            SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: _slowDown,
+                  child: Text('Slow Down'),
+                ),
+                SizedBox(width: 16),
+                ElevatedButton(
+                  onPressed: _fastForward,
+                  child: Text('Fast Forward'),
+                ),
+              ],
+            ),
+            SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: _skipBackward,
+                  child: Text('Skip Backward'),
+                ),
+                SizedBox(width: 16),
+                ElevatedButton(
+                  onPressed: _skipForward,
+                  child: Text('Skip Forward'),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

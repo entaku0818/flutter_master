@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_master/AudioPlayerPage.dart';
 import 'package:flutter_master/AudioRecorderPage.dart';
+import 'package:flutter_master/video.dart';
 
 void main() {
   runApp(const MyApp());
@@ -61,6 +62,13 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+    void _navigateToVideoPlayerPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => VideoApp()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,6 +88,11 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: _navigateToAudioPlayerPage,
               child: Text('Go to Audio Player Page'),
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _navigateToVideoPlayerPage,
+              child: Text('Go to Video Player Page'),
             ),
           ],
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_master/AudioPlayerPage.dart';
+import 'package:flutter_master/AudioRecorderPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -46,12 +47,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  void _navigateToAudioRecorderPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AudioRecorderPage()),
+    );
   }
 
   void _navigateToAudioPlayerPage() {
@@ -72,6 +72,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            ElevatedButton(
+              onPressed: _navigateToAudioRecorderPage,
+              child: Text('Go to Audio Recorder Page'),
+            ),
+            SizedBox(height: 16),
             ElevatedButton(
               onPressed: _navigateToAudioPlayerPage,
               child: Text('Go to Audio Player Page'),

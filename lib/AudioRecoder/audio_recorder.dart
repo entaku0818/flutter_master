@@ -4,7 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:record/record.dart';
 
-import 'platform/audio_recorder_platform.dart';
+import 'platform/audio_recorder_io.dart';
+
 
 class Recorder extends StatefulWidget {
   final void Function(String path) onStop;

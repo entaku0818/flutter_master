@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_master/AudioPlayerPage.dart';
-import 'package:flutter_master/AudioRecorderPage.dart';
 import 'package:flutter_master/video.dart';
+
+import 'AudioRecoder/AudioRecorderPage.dart';
 
 void main() {
   runApp(const MyApp());
